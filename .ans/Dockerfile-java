@@ -1,0 +1,14 @@
+FROM cgr.dev/chainguard/jdk as builder
+
+WORKDIR /home/build
+COPY Hello.java /home/build
+
+RUN javac Hello.java
+
+CMD ["java", "Hello"]
+
+FROM cgr.dev/chainguard/jre
+
+COPY --from=builder /home/build/Hello.class /
+
+CMD ["java", "Hello"]

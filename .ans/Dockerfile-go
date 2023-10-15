@@ -1,0 +1,14 @@
+FROM cgr.dev/chainguard/go as builder
+
+WORKDIR /work
+COPY go.mod main.go /work
+
+RUN go build -o hello .
+
+CMD ["/work/hello"]
+
+FROM cgr.dev/chainguard/static
+
+COPY --from=builder /work/hello /hello
+
+CMD ["/hello"]
